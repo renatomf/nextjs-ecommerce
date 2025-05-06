@@ -91,6 +91,8 @@ export const Categories = ({ data }: Props) => {
         onMouseLeave={() => setIsAnyHovered(false)}
       
       >
+        {/* TODO: Hardcoded "All" button */}
+
         {data.slice(0, visibleCount).map((category) => (
           <div key={category.id}>
             <CategoryDropdown 
