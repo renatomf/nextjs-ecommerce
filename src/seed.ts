@@ -140,7 +140,36 @@ const categories = [
 const seed = async () => {
   const payload = await getPayload({ config });
 
+  const delay = (ms: number) => new Promise((res) => setTimeout(res, ms));
+
+  // Create admin tenant
+  const adminTenant = await payload.create({
+    collection: "tenants",
+    data: {
+      name: "admin",
+      slug: "admin",
+      stripeAccountId: "admin",
+    },
+  });
+
+  // Create admin user
+  await payload.create({
+    collection: "users",
+    data: {
+      email: "admin@demo.com",
+      password: "demo",
+      roles: ["super-admin"],
+      username: "admin",
+      tenants: [
+        {
+          tenant: adminTenant.id,
+        },
+      ],
+    },
+  });
+
   for (const category of categories) {
+    await delay(50);
     const parentCategory = await payload.create({
       collection: "categories",
       data: {
@@ -152,6 +181,7 @@ const seed = async () => {
     });
 
     for (const subCategory of category.subcategories || []) {
+      await delay(50);
       await payload.create({
         collection: "categories",
         data: {
@@ -172,3 +202,4 @@ try {
   console.error('Erro during seeding', error);
   process.exit(1);
 }
+
