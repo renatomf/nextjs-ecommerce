@@ -45,7 +45,7 @@ export const CheckoutView = ({ tenantSlug }: Props) => {
 
   useEffect(() => {
     if (states.success) {
-      setStates({ success: false, cancel: false });
+      //setStates({ success: false, cancel: false });
       clearCart();
       // TODO: Invalidate library
       router.push("/products");
